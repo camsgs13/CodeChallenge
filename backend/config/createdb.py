@@ -31,24 +31,24 @@ data_types = {'id':'Int64',
               'department_id':'Int64',
               'job_id':'Int64'}
 df_hired_employees = pd.read_excel('hired_employees.xlsx',names=columns, dtype=data_types,header=None)
-print(df_hired_employees.info())
-print(df_hired_employees.head())
+# print(df_hired_employees.info())
+# print(df_hired_employees.head())
 
 # Archivo departments.xlsx
 columns = ['id','department']
 data_types = {'id':'Int64',
               'department':str}
 df_departments = pd.read_excel('departments.xlsx',names=columns, dtype=data_types,header=None)
-print(df_departments.info())
-print(df_departments.head())
+# print(df_departments.info())
+# print(df_departments.head())
 
 # Archivo jobs.xlsx
 columns = ['id','job']
 data_types = {'id':'Int64',
               'job':str}
 df_jobs = pd.read_excel('jobs.xlsx',names=columns, dtype=data_types,header=None)
-print(df_jobs.info())
-print(df_jobs.head())
+# print(df_jobs.info())
+# print(df_jobs.head())
 
 # Inicia la migracion de los archivos leidos a la nueva base de datos
 # df_hired_employees.to_sql('hired_employees', conn, if_exists='replace', index=False)
@@ -60,6 +60,17 @@ test_table = 'hired_employees'
 cursor.execute(f'SELECT id FROM {test_table} WHERE id = 1')
 if cursor.fetchone():
     print(f"La tabla {test_table} existe")
+    # print(cursor.fetchall())
 else:
     print(f"La tabla {test_table} no existe")
+
+cursor.execute("SELECT name FROM sqlite_master WHERE type='table';") 
+tables = cursor.fetchall()
+tables = [table[0] for table in tables]
+table = ','.join(tables)
+print(table)
+cursor.close()
+conn.close()
+
+# print(conn)
 

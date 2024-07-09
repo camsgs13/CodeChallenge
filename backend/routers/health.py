@@ -1,7 +1,5 @@
 from fastapi import APIRouter
 import logging
-from typing import Optional
-from typing import Sequence
 
 router = APIRouter(
     prefix="/code-challenge",
