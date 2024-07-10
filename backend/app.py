@@ -8,6 +8,7 @@ from routers.create_new_job import router_create_new_job
 from routers.backup_table import router_backup_table
 from routers.restore_table import router_restore_table
 from routers.employees_hired_by_year_quarter import router_employees_year_quarter
+from routers.employees_hired_by_dept import router_employees_hired_by_dept
 
 app = FastAPI()
 app.include_router(router)
@@ -18,6 +19,7 @@ app.include_router(router_create_new_job)
 app.include_router(router_backup_table)
 app.include_router(router_restore_table)
 app.include_router(router_employees_year_quarter)
+app.include_router(router_employees_hired_by_dept)
 
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000)
