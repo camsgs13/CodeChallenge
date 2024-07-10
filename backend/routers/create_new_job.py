@@ -10,28 +10,28 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
-router_create_new_department = APIRouter(
+router_create_new_job = APIRouter(
     prefix="/code-challenge",
     tags=["items"],
 )
 
 
 # Se crea el modelo de los datos esperados
-class Department(BaseModel):
+class Job(BaseModel):
     id: int
-    department: str
+    job: str
 
 
-# Endpoint para manejar la llegada de un nuevo dato a departments
-@router_create_new_department.post('/create-new-department', tags=['Add Data'])
-def create_new_department(dept: Department):
-    logging.info('Ejecuta: create_new_department')
+# Endpoint para manejar la llegada de un nuevo dato a jobs
+@router_create_new_job.post('/create-new-job', tags=['Add Data'])
+def create_new_job(job: Job):
+    logging.info('Ejecuta: create_new_job')
     # Lee los datos del request
-    id = dept.id
-    department = dept.department
+    id = job.id
+    job_name = job.job
     logging.info('Datos de request obtenidos')
     # return de prueba de los datos
-    # return {'id':id, 'department':department}
+    # return {'id':id, 'job':job_name}
 
     # Se conecta a la BD para hacer el insert
     try:
@@ -40,14 +40,14 @@ def create_new_department(dept: Department):
         cursor = conn.cursor()
         # Hace un INSERT de los datos obtenidos por la API
         logging.info('Inicia INSERT a la base de datos')
-        cursor.execute("INSERT INTO departments (id, department) VALUES (?, ?)",
-                       (id, department))
+        cursor.execute("INSERT INTO jobs (id, job) VALUES (?, ?)",
+                       (id, job_name))
         # Devuelve el ID del registro recien creado para confirmar que fue ingresado
-        dept_id = cursor.lastrowid
+        job_id = cursor.lastrowid
         conn.commit()
         cursor.close()
         conn.close()
-        return {"message": "Se ha ingresado correctamente el registro", "dept_row_id": dept_id}
+        return {"message": "Se ha ingresado correctamente el registro", "job_row_id": job_id}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"No se ha podido ingresar el registro: {str(e)}")
 
